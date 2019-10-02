@@ -32,9 +32,9 @@ def handle_in("restart", %{}, socket) do
     {:reply, {:ok, %{ "game" => Game.client_view(game)}}, socket}
   end	
 
-def handle_in("matched", %{}, socket) do 
+def handle_in("check_match", %{}, socket) do 
 	name = socket.assigns[:name]
-	game = Game.matched(socket.assigns[:game])
+	game = Game.check_match(socket.assigns[:game])
 	socket = assign(socket, :game, game)
 	BackupAgent.put(name, game)
     {:reply, {:ok, %{ "game" => Game.client_view(game)}}, socket}

@@ -102,45 +102,38 @@ defmodule Memory.Game do
 
 
 
-  def matched (game) do 
+  def check_match (game) do 
+    if(Enum.at(game.letters,game.tileOne) == Enum.at(game.letters,game.tileTwo)) do
+      game
 
-    game
+      |> Map.put(:tileOne, nil)
 
-    |> Map.put(:tileOne, nil)
+      |> Map.put(:tileTwo, nil)
 
-    |> Map.put(:tileTwo, nil)
+      |> Map.put(:click_disabled, false)
 
-    |> Map.put(:click_disabled, false)
+    else
+      tileOne = game.tileOne
 
+      tileTwo = game.tileTwo
+      :timer.sleep(1000);
+
+      present = List.replace_at(game.present, tileOne, nil)
+
+      newPresent = List.replace_at(present, tileTwo, nil)
+
+      game 
+
+      |> Map.put(:tileOne, nil)
+
+      |> Map.put(:tileTwo, nil)
+
+      |> Map.put(:present, newPresent)
+
+      |> Map.put(:click_disabled, false)
+
+    end
   end
-
-
-
-  def mismatch (game) do 
-
-    tileOne = game.tileOne
-
-    tileTwo = game.tileTwo
-
-    present = List.replace_at(game.present, tileOne, nil)
-
-    newPresent = List.replace_at(present, tileTwo, nil)
-
-    game 
-
-    |> Map.put(:tileOne, nil)
-
-    |> Map.put(:tileTwo, nil)
-
-    |> Map.put(:present, newPresent)
-
-    |> Map.put(:click_disabled, false)
-
-
-
-  end
-
-
 
   def restart(game) do
 

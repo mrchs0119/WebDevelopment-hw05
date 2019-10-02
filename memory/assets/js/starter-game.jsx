@@ -66,15 +66,6 @@ class Board extends React.Component{
     } 
   }
 
-  match(){
-    if(this.state.letters[this.state.tileOne] == this.state.letters[this.state.tileTwo]){
-      this.channel.push("matched",{})
-  	          .receive("ok", this.got_view.bind(this));
-    }else{
-      setTimeout(()=>{this.channel.push("mismatch",{})
-  	                          .receive("ok", this.got_view.bind(this));},1000);
-    }
-  }
   renderSquare(i) {
     if (this.state.present[i]==null){
     	return <Square 
@@ -91,7 +82,8 @@ class Board extends React.Component{
 
   render(){
     if (this.state.tileOne != null && this.state.tileTwo != null){
-		this.match();
+		this.channel.push("check_match",{})
+	                    .receive("ok", this.got_view.bind(this));
 	}
     let clicks_num = this.state.clicks;
     	return (
